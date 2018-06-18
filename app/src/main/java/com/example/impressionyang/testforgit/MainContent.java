@@ -45,7 +45,7 @@ public class MainContent extends Activity implements View.OnClickListener{
         setTitle();
         sp = getSharedPreferences("share_wifi", Context.MODE_PRIVATE);
         isRead = sp.getBoolean("wifi_read", false);
-        wifiManager = (WifiManager) getSystemService(WIFI_SERVICE);
+        wifiManager = (WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
         handler = new Handler(){
             @Override
             public void handleMessage(Message msg) {
@@ -149,9 +149,10 @@ public class MainContent extends Activity implements View.OnClickListener{
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.id_btn_title:
-                startActivity(new Intent(MainContent.this,MenuContainer.class));
-                break;
+//            case R.id.id_btn_title:
+//
+//                //startActivity(new Intent(MainContent.this,MenuContainer.class));
+//                break;
             case R.id.id_btn_refresh:
                 connectSocket();
                 break;

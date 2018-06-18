@@ -13,12 +13,27 @@
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
+        <activity android:name=".MainContent"
+            android:screenOrientation="portrait" ></activity>
+
+        <activity android:name=".MainFuvtion.MainActivity"
+            android:screenOrientation="portrait" />
+
+        <service android:name=".MainFuvtion.SocketService"/>
+
+        <activity
+            android:name=".StartPage"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>
