@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="1dp"
+        android:layout_height="60dp" />
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btn_room_1"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:text="鎴块棿1"
+            android:textStyle="bold"
+            android:textColor="#ffff"
+            android:textSize="28dp"
+            android:gravity="bottom"/>
+
+        <LinearLayout
+            android:layout_toRightOf="@+id/btn_room_1"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp">
+            <TextView
+                android:id="@+id/tv_tempreture_room1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="娓╁害锛歯ull"
+                android:textSize="25dp"
+                />
+
+            <TextView
+                android:id="@+id/tv_fog_room1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="鐑熸劅锛歯ull"
+                android:textSize="25dp" />
+
+        </LinearLayout>
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="1dp"
+        android:layout_height="50dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <!--233-->
+
+        <Button
+            android:id="@+id/btn_room_2"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:text="鎴块棿2"
+            android:textColor="#ffff"
+            android:textStyle="bold"
+            android:textSize="28dp"
+            android:gravity="bottom"
+            />
+
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_toRightOf="@+id/btn_room_2"
+            android:layout_width="match_parent"
+            android:layout_height="100dp">
+
+            <TextView
+                android:id="@+id/tv_tempreture_room_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="娓╁害锛歯ull"
+                android:textSize="25dp"
+                />
+
+            <TextView
+                android:id="@+id/tv_fog_room_2"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="鐑熸劅锛歯ull"
+                android:textSize="25dp" />
+
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+</LinearLayout>
