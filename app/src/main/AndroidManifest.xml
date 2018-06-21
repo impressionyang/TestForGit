@@ -14,11 +14,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".MainFuvtion.MainActivity"
-            android:screenOrientation="portrait" />
-
-        <service android:name=".MainFuvtion.SocketService" />
 
         <activity
             android:name=".StartPage"
