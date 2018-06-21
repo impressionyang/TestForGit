@@ -3,6 +3,7 @@ package com.example.impressionyang.testforgit;
 import android.annotation.SuppressLint;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
@@ -13,7 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
@@ -80,20 +80,17 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
                     a.interrupt();
                     clip=1;
                 } else {
-                    a.interrupt();
-                    a=new MyThread("233",ssid);
-                    a.start();
-                    a.interrupt();
+                    Message message=new Message();
+                    message.what=2;
+                    message.obj="not connect";
+                    mHandler.sendMessage(message);
                 }
                 break;
             case R.id.tv_temp:
                 tv_show.setText("default");
                 break;
             case R.id.layout:
-                a.interrupt();
-                a=new MyThread("233","ssid");
-                a.start();
-                a.interrupt();
+                counter++;
                 break;
         }
 
@@ -109,63 +106,41 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
 
         @Override
         public void run() {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            if(ssid.equals("ESP8266")){
+
+            while (true){
                 try {
-                    socket = new Socket("192.168.4.1", 8080);
-                    socket.setSoTimeout(10000);
-                    InputStream inputStream = socket.getInputStream();
-                    byte[] mod = new byte[8];
-                    for (int i = 0; i < 8; i++) {
-                        mod[i] = (byte) inputStream.read();
-                    }
-                    String line = new String(mod);
+                    Thread.sleep(1000);
+                } catch (Exception e) {
                     Message message=new Message();
-                    message.obj=line;
-                    message.what=1;
+                    message.obj=e.toString();
+                    message.what=2;
                     mHandler.sendMessage(message);
-//                    if (line == null) {
-//                        Toast.makeText(Main2Activity.this, "null:", Toast.LENGTH_LONG).show();
-//                    } else {
-//                        tv_show.setText(line);
-//                        Toast.makeText(Main2Activity.this, "contens:" + line, Toast.LENGTH_LONG).show();
-//                    }
-                } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }else {
-//                TimerTask task=new TimerTask() {
-//                    @Override
-//                    public void run() {
-//                        Message message=new Message();
-//                        message.obj=counter+":"+ssid.toString();
-//                        message.what=1;
-//                        mHandler.sendMessage(message);
-//                    }
-//                };
-//
-//
-//                try{
-//                    for(int i=0;i<5;i++){
-//                        new Timer(true).schedule(task,1000,1000);
-//                        counter++;
-//                    }
-//                }catch (Exception e){
-//                    Message message=new Message();
-//                    message.obj=e.toString();
-//                    message.what=1;
-//                    mHandler.sendMessage(message);
-//                    e.printStackTrace();
-//                }
-                Message message=new Message();
-                message.obj=counter+":"+ssid.toString();
-                message.what=2;
-                mHandler.sendMessage(message);
-                counter++;
+                if(ssid.equals("ESP8266")){
+                    try {
+                        socket = new Socket("192.168.4.1", 8080);
+                        socket.setSoTimeout(10000);
+                        InputStream inputStream = socket.getInputStream();
+                        byte[] mod = new byte[8];
+                        for (int i = 0; i < 8; i++) {
+                            mod[i] = (byte) inputStream.read();
+                        }
+                        String line = new String(mod);
+                        Message message=new Message();
+                        message.obj=line;
+                        message.what=1;
+                        mHandler.sendMessage(message);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }else {
+                    Message message=new Message();
+                    message.obj="not connect:"+counter+"s";
+                    message.what=2;
+                    mHandler.sendMessage(message);
+                    counter++;
+            }
 
             }
         }
