@@ -32,7 +32,7 @@ public class StartPage extends Activity {
             */
             @Override
             public void run() {
-                startActivity(new Intent(StartPage.this, MainActivity.class));
+                startActivity(new Intent(StartPage.this, com.example.impressionyang.testforgit.Main2Activity.class));
                 StartPage.this.finish();
                 finish();
             }
@@ -40,3 +40,6 @@ public class StartPage extends Activity {
     }
 
 }
+
+
+
