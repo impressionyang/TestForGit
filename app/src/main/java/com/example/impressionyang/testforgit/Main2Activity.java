@@ -1,43 +1,48 @@
 package com.example.impressionyang.testforgit;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Intent;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class Main2Activity extends AppCompatActivity implements View.OnClickListener{
 
     WifiManager wifiManager;
+    boolean isExit=false;
 
-    int clip = 0,counter=0;
+    boolean alive=true;
+    int counter=0;
     Socket socket;
     TextView tv_show;
+    EditText editText;
     Button btn;
     RelativeLayout layout;
     MyThread a=null;
+    private long mExitTime = System.currentTimeMillis();  //为当前系统时间，单位：毫秒
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        editText=findViewById(R.id.et_input);
         setListener();
-        a=new MyThread("233","ssid");
-        a.start();
+        startSocket();
     }
 
     @SuppressLint("HandlerLeak")
@@ -47,11 +52,27 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
                 case 1:
                     tv_show.setText(msg.obj.toString());
                     break;
-
                 case 2:
                     tv_show.setText(msg.obj.toString());
+                    if(counter==5){
+                        Intent intent=new Intent(Main2Activity.this,EscapeMap.class);
+                        intent.putExtra("condition","0");
+                        //alive=false;
+                        //EscapeMap.MyThread.interrupted();
+//                        if(EscapeMap.instance!=null){
+//                            EscapeMap.instance.finish();
+//                        }
+                        startActivity(intent);
+                    }else if(counter==10){
+                        Intent intent=new Intent(Main2Activity.this,EscapeMap.class);
+                        intent.putExtra("condition","4");
+                        startActivity(intent);
+                    }else if(counter==15){
+                        Intent intent=new Intent(Main2Activity.this,EscapeMap.class);
+                        intent.putExtra("condition","6");
+                        startActivity(intent);
+                    }
                     break;
-
             }
             super.handleMessage(msg);
         }
@@ -67,30 +88,43 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
         tv_show.setOnClickListener(this);
     }
 
+    public String configureSsid(String originssid){
+        char []ssid=new char[7];
+        char []origin=originssid.toCharArray();
+        String realssid=null;
+        for(int i=1;i<8;i++){
+            ssid[i-1]=origin[i];
+        }
+
+        realssid=new String(ssid);
+
+        return  realssid;
+    }
+
+    public void startSocket(){
+        alive=true;
+        a=new MyThread("233");
+        a.start();
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_socket:
-                wifiManager = (WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
-                WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-                final String ssid = wifiInfo.getSSID();
-                if (clip == 0 && ssid.equals("ESP8266")) {
-                    a=new MyThread("233",ssid);
-                    a.start();
-                    a.interrupt();
-                    clip=1;
-                } else {
-                    Message message=new Message();
-                    message.what=2;
-                    message.obj="not connect";
-                    mHandler.sendMessage(message);
+                String input=editText.getText().toString();
+                Intent intent=new Intent(this,EscapeMap.class);
+                if(input==""){
+                    input="0";
                 }
+                intent.putExtra("condition",input);
+                alive=false;
+                startActivity(intent);
                 break;
             case R.id.tv_temp:
                 tv_show.setText("default");
                 break;
             case R.id.layout:
-                counter++;
+
                 break;
         }
 
@@ -98,16 +132,19 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
 
 
     public class MyThread extends Thread{
-        String ssid;
-        public MyThread(String threadname,String ssid){
+        public MyThread(String threadname){
             super(threadname);
-            this.ssid=ssid;
         }
 
         @Override
         public void run() {
+            boolean iswhilealive=true;
 
-            while (true){
+            while (alive){
+                wifiManager = (WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
+                WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+                final String ssid = wifiInfo.getSSID();
+                boolean iswificonnect=wifiManager.isWifiEnabled();
                 try {
                     Thread.sleep(1000);
                 } catch (Exception e) {
@@ -117,26 +154,37 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
                     mHandler.sendMessage(message);
                     e.printStackTrace();
                 }
-                if(ssid.equals("ESP8266")){
+                String realssid=configureSsid(ssid);
+                if(iswificonnect&&realssid.equals("ESP8266")){
                     try {
+                        alive=false;
                         socket = new Socket("192.168.4.1", 8080);
                         socket.setSoTimeout(10000);
-                        InputStream inputStream = socket.getInputStream();
-                        byte[] mod = new byte[8];
-                        for (int i = 0; i < 8; i++) {
-                            mod[i] = (byte) inputStream.read();
+                        while(iswhilealive){
+                            if(socket.isConnected()){
+                                counter=0;
+                                InputStream inputStream = socket.getInputStream();
+                                byte[] mod = new byte[8];
+                                for (int i = 0; i < 8; i++) {
+                                    mod[i] = (byte) inputStream.read();
+                                }
+                                String line = new String(mod);
+                                Message message=new Message();
+                                message.obj=line;
+                                message.what=1;
+                                mHandler.sendMessage(message);
+                            }else {
+                                alive=true;
+                                iswhilealive=false;
+                            }
                         }
-                        String line = new String(mod);
-                        Message message=new Message();
-                        message.obj=line;
-                        message.what=1;
-                        mHandler.sendMessage(message);
-                    } catch (IOException e) {
+                    }catch (IOException e) {
+                        alive=true;
                         e.printStackTrace();
                     }
                 }else {
                     Message message=new Message();
-                    message.obj="not connect:"+counter+"s";
+                    message.obj="not connect:"+counter+"s"+ssid;
                     message.what=2;
                     mHandler.sendMessage(message);
                     counter++;
@@ -146,19 +194,15 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-
-
-
-
     @Override
-    protected void onDestroy() {
-        /**
-         * 防止线程不能停止
-         */
-        if (null != a) {
-            a.interrupt();
+    public void onBackPressed() {
+        if(System.currentTimeMillis() - mExitTime < 800) {
+            System.exit(0);
         }
-        super.onDestroy();
+        else{
+            Toast.makeText(this,"再按返回键退出！",Toast.LENGTH_SHORT).show();
+            mExitTime = System.currentTimeMillis();   //这里赋值最关键，别忘记
+        }
     }
 
 }
