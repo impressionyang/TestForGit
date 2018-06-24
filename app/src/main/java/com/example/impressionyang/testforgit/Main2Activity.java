@@ -54,24 +54,24 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
                     break;
                 case 2:
                     tv_show.setText(msg.obj.toString());
-                    if(counter==5){
-                        Intent intent=new Intent(Main2Activity.this,EscapeMap.class);
-                        intent.putExtra("condition","0");
-                        //alive=false;
-                        //EscapeMap.MyThread.interrupted();
-//                        if(EscapeMap.instance!=null){
-//                            EscapeMap.instance.finish();
-//                        }
-                        startActivity(intent);
-                    }else if(counter==10){
-                        Intent intent=new Intent(Main2Activity.this,EscapeMap.class);
-                        intent.putExtra("condition","4");
-                        startActivity(intent);
-                    }else if(counter==15){
-                        Intent intent=new Intent(Main2Activity.this,EscapeMap.class);
-                        intent.putExtra("condition","6");
-                        startActivity(intent);
-                    }
+//                    if(counter==5){
+//                        Intent intent=new Intent(Main2Activity.this,EscapeMap.class);
+//                        intent.putExtra("condition","0");
+//                        //alive=false;
+//                        //EscapeMap.MyThread.interrupted();
+////                        if(EscapeMap.instance!=null){
+////                            EscapeMap.instance.finish();
+////                        }
+//                        startActivity(intent);
+//                    }else if(counter==10){
+//                        Intent intent=new Intent(Main2Activity.this,EscapeMap.class);
+//                        intent.putExtra("condition","4");
+//                        startActivity(intent);
+//                    }else if(counter==15){
+//                        Intent intent=new Intent(Main2Activity.this,EscapeMap.class);
+//                        intent.putExtra("condition","6");
+//                        startActivity(intent);
+//                    }
                     break;
             }
             super.handleMessage(msg);
