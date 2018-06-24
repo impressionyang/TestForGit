@@ -73,6 +73,13 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
 //                        startActivity(intent);
 //                    }
                     break;
+                case 3:
+                    Intent intent=new Intent(Main2Activity.this,EscapeMap.class);
+                    intent.putExtra("condition",msg.obj.toString());
+                    alive=false;
+                    startActivity(intent);
+                    break;
+
             }
             super.handleMessage(msg);
         }
@@ -97,7 +104,6 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
         }
 
         realssid=new String(ssid);
-
         return  realssid;
     }
 
@@ -111,14 +117,19 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_socket:
+//                String input=editText.getText().toString();
+//                Intent intent=new Intent(this,EscapeMap.class);
+//                if(input==""){
+//                    input="0";
+//                }
+//                intent.putExtra("condition",input);
+//                alive=false;
+//                startActivity(intent);
                 String input=editText.getText().toString();
-                Intent intent=new Intent(this,EscapeMap.class);
-                if(input==""){
-                    input="0";
-                }
-                intent.putExtra("condition",input);
-                alive=false;
-                startActivity(intent);
+                Message message=new Message();
+                message.obj=input;
+                message.what=3;
+                mHandler.sendMessage(message);
                 break;
             case R.id.tv_temp:
                 tv_show.setText("default");
@@ -167,11 +178,19 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
                                 byte[] mod = new byte[8];
                                 for (int i = 0; i < 8; i++) {
                                     mod[i] = (byte) inputStream.read();
+                                    String a=String.valueOf(mod[i]);
+                                    if(a.equals("1")){
+                                        Message message=new Message();
+                                        String condition=String.valueOf(i);
+                                        message.obj=condition;
+                                        message.what=3;
+                                        mHandler.sendMessage(message);
+                                    }
                                 }
                                 String line = new String(mod);
                                 Message message=new Message();
                                 message.obj=line;
-                                message.what=1;
+                                message.what=2;
                                 mHandler.sendMessage(message);
                             }else {
                                 alive=true;
