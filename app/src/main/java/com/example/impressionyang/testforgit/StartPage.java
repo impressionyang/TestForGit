@@ -8,7 +8,7 @@ import android.view.WindowManager;
 
 public class StartPage extends Activity {
 
-    private long time = 2000;
+    private long time = 1000;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

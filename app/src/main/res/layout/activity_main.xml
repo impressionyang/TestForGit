@@ -7,12 +7,24 @@
     >
 
     <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="no socket connect"
+        android:gravity="right"
+        android:layout_alignParentTop="true"
+        android:id="@+id/tv_status"
+        android:textColor="#ffffff"
+        android:textSize="15sp"
+        />
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="default"
+        android:text="wait for connecting"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:id="@+id/tv_temp"
+        android:textColor="#ffffff"
         android:textSize="24sp"
         />
 
@@ -33,8 +45,9 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="50dp"
+        android:textColor="#ffffff"
         android:layout_marginBottom="20dp"
         android:background="#5971f9"
-        android:hint="start" />
+        android:text="start" />
 
 </RelativeLayout>

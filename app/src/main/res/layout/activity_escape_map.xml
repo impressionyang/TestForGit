@@ -5,18 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/LinearLayout"
-    android:background="#3f51b4"
+    android:background="#ffffff"
     tools:context="com.example.impressionyang.testforgit.EscapeMap"
     android:orientation="vertical">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="请走红色路线"
+        android:text="请走绿色路线"
         android:gravity="center"
         android:textSize="28dp"
         android:textStyle="bold"
-        android:textColor="#ff0000"
+        android:textColor="#55ff00"
         android:id="@+id/alarm_text"
         />
 
@@ -25,6 +25,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/image_backround"
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="30dp"
+        android:layout_centerHorizontal="true"
+        android:hint="finish"
+        android:id="@+id/btn_finish_map"
         />
 
 </RelativeLayout>

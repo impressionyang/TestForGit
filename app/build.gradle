@@ -1,11 +1,19 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'yang'
+            keyPassword 'yang2333'
+            storeFile file('E:/workspace/android/TestForGit/key.jks')
+            storePassword 'yang2333'
+        }
+    }
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.example.impressionyang.testforgit"
         minSdkVersion 15
-        targetSdkVersion 23
+        targetSdkVersion 21
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -14,6 +22,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
     }
     buildToolsVersion '27.0.3'
