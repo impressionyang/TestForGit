@@ -269,7 +269,7 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onBackPressed() {
         if(System.currentTimeMillis() - mExitTime < 800) {
-            System.exit(0);
+            Main2Activity.this.finish();
         }
         else{
             Toast.makeText(this,"再按返回键退出！",Toast.LENGTH_SHORT).show();

@@ -194,7 +194,7 @@ public class EscapeMap extends AppCompatActivity implements View.OnClickListener
                 Main2Activity.ischecklock=false;
                 alive=false;
                 startActivity(new Intent(EscapeMap.this,Main2Activity.class));
-                finish();
+                EscapeMap.this.finish();
                 break;
         }
     }
@@ -276,13 +276,13 @@ public class EscapeMap extends AppCompatActivity implements View.OnClickListener
                                 Main2Activity.ischecklock = false;
                                 alive = false;
                                 startActivity(new Intent(EscapeMap.this,Main2Activity.class));
-                                finish();
+                                EscapeMap.this.finish();
                             }
                             break;
                         }else if(i==6){
                             alive=false;
                             startActivity(new Intent(EscapeMap.this,Main2Activity.class));
-                            finish();
+                            EscapeMap.this.finish();
                         }
                     }
                 }

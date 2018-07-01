@@ -5,7 +5,7 @@ android {
         config {
             keyAlias 'yang'
             keyPassword 'yang2333'
-            storeFile file('E:/workspace/android/TestForGit/key.jks')
+            storeFile file('/home/impressionyang/Documents/workspace/Android/TestForGit/key.jks')
             storePassword 'yang2333'
         }
     }
